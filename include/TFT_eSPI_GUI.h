@@ -3,64 +3,49 @@
 
 #include "TFT_eSPI.h"
 
-enum ThemeColors
-{
-    BACKGROUND,
-    TEXT,
-    WINDOW,
-    THEME_COLORS
-};
+uint16_t rgb2col(byte r, byte g, byte b);
 
-class TFT_eSPI_GUI_Base
+class GUI_Base
 {
 public:
-    TFT_eSPI_GUI_Base();
-    TFT_eSPI_GUI_Base(TFT_eSPI *tft, int x, int y, int w, int h, String id);
-    virtual ~TFT_eSPI_GUI_Base();
+    GUI_Base();
+    GUI_Base(int x, int y, int w, int h, char name[9]);
+    virtual ~GUI_Base();
 
-    void addChild(TFT_eSPI_GUI_Base *child);
-    TFT_eSPI_GUI_Base *_parentItem = nullptr;
-    TFT_eSPI_GUI_Base *_nextItem = nullptr;
-    TFT_eSPI_GUI_Base *_firstItem = nullptr;
-    TFT_eSPI_GUI_Base *getTopObject();
-    String name;
-
-    virtual void drawSelf();
+    void addChild(GUI_Base *child);
     void draw();
+    TFT_eSPI *_tft;
+    char _name[9];
+
+    void setVisible(bool);
 
 protected:
     int _xpos;
     int _ypos;
     int _width;
     int _height;
-    TFT_eSPI *_tft;
+
+    int getOffsetX();
+    int getOffsetY();
+    int getMaxWidth();
+    int getMaxHeight();
+
+    GUI_Base *_parentItem = nullptr;
+    GUI_Base *_nextItem = nullptr;
+    GUI_Base *_firstItem = nullptr;
+
+    GUI_Base *getTopObject();
+    TFT_eSPI *getTFT();
 
 private:
+    virtual void drawSelf();
+    bool _visible = true;
 };
 
-class Desktop : public TFT_eSPI_GUI_Base
-{
-public:
-    Desktop();
-    Desktop(TFT_eSPI *tft, int x, int y, int w, int h, String id);
-    int theme[THEME_COLORS];
+#include "screen.h"
+#include "container.h"
 
-    void drawSelf();
-
-protected:
-    String _text;
-};
-
-class Container : public TFT_eSPI_GUI_Base
-{
-public:
-    Container();
-    Container(TFT_eSPI *tft, int x, int y, int w, int h, String id);
-
-    void drawSelf();
-
-protected:
-    String _text;
-};
+#include "menu.h"
+#include "statusbar.h"
 
 #endif
