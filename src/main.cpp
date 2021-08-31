@@ -10,10 +10,7 @@ uint16_t t_x = 0, t_y = 0; // To store the touch coordinates
 
 uint16_t calData[5] = {280, 3386, 471, 3402, 2};
 
-//GUI_Screen scrn(&tft, 0, 0, -1, -1, (char *)"Screen");
-//GUI_Screen scrn(&tft, (char *)"Screen");
-GUI_Screen scrn(&tft, rgb2col(200,200,200));
-//GUI_Screen scrn(&tft, 0, 0, -1, -1, (char *)"Screen", rgb2col(200, 200, 200));
+GUI_Screen scrn(&tft, 0, 0, 240, 320, (char *)"Screen", rgb2col(200, 200, 200));
 
 //GUI_MenuBar menu();
 GUI_Container tb(0, 280, 240, 40, (char *)"Taskbar");
@@ -45,8 +42,11 @@ void setup()
     scrn.addChild(&mainMenu);
     mainMenu.addChild(&testmenu);
     testmenu.addChild(&testmenu2);
+
+    mainMenu.setBorder(false);
+    mainMenu.setMargin(10);
+    testmenu.setMargin(5);
     testmenu.setTheme(rgb2col(255, 0, 255), rgb2col(0, 255, 0));
-    
 
     // put your setup code here, to run once:
 
@@ -67,9 +67,8 @@ void loop()
     Serial.println("3");
     testmenu2.setVisible(true);
     delay(2000);
-    
+
     Serial.println("4");
     testmenu.setVisible(true);
     delay(2000);
-
 }

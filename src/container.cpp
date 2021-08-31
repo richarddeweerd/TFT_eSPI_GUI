@@ -10,14 +10,15 @@ GUI_Container::GUI_Container(int x, int y, int w, int h, char name[9]) : GUI_Bas
 }
 void GUI_Container::drawSelf()
 {
-    int x_offset = getOffsetX();
-    int y_offset = getOffsetY();
-    getTFT()->fillRect(x_offset, y_offset, getMaxWidth(), getMaxHeight(), _backgroundColor);
-    getTFT()->drawRect(x_offset, y_offset, getMaxWidth(), getMaxHeight(), _borderColor);
+    getTFT()->fillRect(_xpos_abs, _ypos_abs, _width_abs, _height_abs, _backgroundColor);
+    if (_border)
+    {
+        getTFT()->drawRect(_xpos_abs, _ypos_abs, _width_abs, _height_abs, _borderColor);
+    }
 
     // dbg
     getTFT()->setTextDatum(TL_DATUM);
-    getTFT()->drawString(_name, x_offset, y_offset);
+    getTFT()->drawString(_name, _xpos_abs, _ypos_abs);
     // dbg
 }
 
